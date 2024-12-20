@@ -13,7 +13,7 @@ permissions:
   actions: read
 
 jobs:
-  scanoss-code-scan:
+   scanoss-code-scan:
     name: SCANOSS Code Scan
     runs-on: ubuntu-latest
 
@@ -21,34 +21,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check for sbom.json
-        id: check-sbom
-        run: |
-          if [ -f sbom.json ]; then
-            echo "SBOM file exists."
-            echo "sbom-present=true" >> $GITHUB_ENV
-          else
-            echo "SBOM file is missing."
-            echo "sbom-present=false" >> $GITHUB_ENV
-          fi
-
       - name: Run SCANOSS Code Scan
         id: scanoss-code-scan-step
         uses: scanoss/code-scan-action@v0
         with:
-          policies: ${{ env.sbom-present == 'true' && 'Permissive' }}
+          policies: copyleft, undeclared  #NOTE: undeclared policy requires a sbom.json in the project root
           dependencies.enabled: true
-          # Uncomment and set these with secrets for authentication
-          # api-url: ${{ secrets.SCANOSS_API_URL }}
-          # api-key: ${{ secrets.SCANOSS_API_KEY }}
+          # api-url: <YOUR_API_URL>
+          # api-key: <YOUR_API_KEY>
+
 
       - name: Print stdout scan command
         run: echo "${{ steps.scanoss-code-scan-step.outputs.stdout-scan-command }}"
 
       - name: Print Results
-        run: |
-          if [ -f "${{ steps.scanoss-code-scan-step.outputs.result-filepath }}" ]; then
-            cat "${{ steps.scanoss-code-scan-step.outputs.result-filepath }}"
-          else
-            echo "SCANOSS results file not found."
-          fi
+        run: cat "${{ steps.scanoss-code-scan-step.outputs.result-filepath }}"
