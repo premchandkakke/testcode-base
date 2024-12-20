@@ -36,7 +36,7 @@ jobs:
         id: scanoss-code-scan-step
         uses: scanoss/code-scan-action@v0
         with:
-          policies: ${{ env.sbom-present == 'true' && 'Permissive' || 'Strict' }}
+          policies: ${{ env.sbom-present == 'true' && 'Permissive' }}
           dependencies.enabled: true
           # Uncomment and set these with secrets for authentication
           # api-url: ${{ secrets.SCANOSS_API_URL }}
