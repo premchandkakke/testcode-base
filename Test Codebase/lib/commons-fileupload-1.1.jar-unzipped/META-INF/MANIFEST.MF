@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: Apache Maven
+Built-By: martinc
+Package: org.apache.commons.fileupload
+Build-Jdk: 1.4.2_07
+Extension-Name: commons-fileupload
+Specification-Title: Commons FileUpload
+Specification-Vendor: Apache Software Foundation
+Implementation-Title: Commons FileUpload
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 1.1
+Specification-Version: 1.1
+Implementation-Vendor-Id: org.apache
+

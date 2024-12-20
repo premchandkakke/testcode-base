@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.6.1
+Created-By: Apache Jakarta
+
+Name: org/apache/lucene
+Specification-Title: Lucene Search Engine
+Specification-Version: 1.4.3
+Specification-Vendor: Lucene
+Implementation-Title: org.apache.lucene
+Implementation-Version: build 2004-11-29 15:13:05
+Implementation-Vemdpr: Lucene
+
