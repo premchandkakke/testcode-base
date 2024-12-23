@@ -36,3 +36,19 @@ jobs:
 
       - name: Print Results
         run: cat "${{ steps.scanoss-code-scan-step.outputs.result-filepath }}"
+stages:
+  - scan
+  
+ # Step : SAST Scan
+sast_scan:
+  stage: scan
+  image: python:3.9                    # Use an image with Python and pip
+  script:
+    - pip install semgrep              # Install a SAST tool like Semgrep
+    - semgrep --config=auto --json . > sast-report.json
+    - cat sast-report.json             # Display the SAST report
+  artifacts:
+    paths:
+      - sast-report.json
+    reports:
+      sast: sast-report.json
