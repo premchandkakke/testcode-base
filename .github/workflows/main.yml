@@ -36,19 +36,44 @@ jobs:
 
       - name: Print Results
         run: cat "${{ steps.scanoss-code-scan-step.outputs.result-filepath }}"
-stages:
-  - scan
-  
- # Step : SAST Scan
-sast_scan:
-  stage: scan
-  image: python:3.9                    # Use an image with Python and pip
-  script:
-    - pip install semgrep              # Install a SAST tool like Semgrep
-    - semgrep --config=auto --json . > sast-report.json
-    - cat sast-report.json             # Display the SAST report
-  artifacts:
-    paths:
-      - sast-report.json
-    reports:
-      sast: sast-report.json
+        
+name: SAST Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sast_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+      - name: Run SAST Scan
+        run: semgrep --config=auto --json . > sast-report.json
+
+      - name: Display SAST Report
+        run: cat sast-report.json
+
+      - name: Upload SAST Report Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sast-report
+          path: sast-report.json
+
